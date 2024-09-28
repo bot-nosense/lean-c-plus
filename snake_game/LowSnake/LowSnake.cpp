@@ -3,13 +3,15 @@
 #include <iostream>
 #include "SnakeLib.h"
 
+int snake_length = 4;
+
 void draw(char ch, int x, int y)
 {
     gotoXY(x, y);
     std::cout << ch;
 }
 
-void snake_draw(int x[], int y[], int snake_length)
+void snake_draw(int x[], int y[])
 {
     if (snake_length == 4)
     {
@@ -28,7 +30,7 @@ void snake_draw(int x[], int y[], int snake_length)
     }
 }
 
-void snake_sketch(int x[], int y[], int snake_length)
+void snake_sketch(int x[], int y[])
 {
     int i = 0, a = 50, b = 12;
     for (int i = 0; i < snake_length; i++)
@@ -40,17 +42,30 @@ void snake_sketch(int x[], int y[], int snake_length)
     }
 }
 
-void add_array(int array[], int number)
+void add_first(int arr[], int arr_length, int new_value)
 {
-    for (size_t i = 0; i < length; i++)
+    std::cout << arr_length;
+    for (int i = arr_length; i > 0; i--)
     {
-
+        std::cout << i + ", " + arr[i];
+        arr[i] = arr[i - 1];
     }
+    arr[0] = new_value;
+    arr_length++;
 }
 
-void snake_move(int x[], int y[], int a, int b)
+void remove(int arr[], int index)
 {
+    for (int i = index; i < snake_length; i++)
+    {
+        arr[i] = arr[i + 1];
+    }
+    snake_length--;
+}
 
+void snake_move(int x[], int y[], int a, int b, int length)
+{
+    //add_array(x, length, a );
 }
 
 void border_draw()
@@ -83,11 +98,29 @@ int main()
     int x = 10, y = 0;
     int x_old = x, y_old = y;
     int toadoX[100], toadoY[100];
-    int snake_length = 4;
 
-    border_draw();
-    snake_sketch(toadoX, toadoY, snake_length);
-    snake_draw(toadoX, toadoY, snake_length);
+
+    //border_draw();
+    /*snake_sketch(toadoX, toadoY, snake_length);
+    snake_draw(toadoX, toadoY, snake_length);*/
+    
+    //snake_move(toadoX, toadoY, x, y, snake_length);
+
+    /*for (int i = snake_length; i > 0; i--)
+    {
+        std::cout << i + ", " + toadoX[i];
+        toadoX[i] = toadoX[i - 1];
+    }
+    toadoX[0] = 0;*/
+    //snake_length++;
+
+    for (int i = 4; i > 0; i--)
+    {
+        std::cout << i ;
+        toadoX[i] = toadoX[i - 1];
+        std::cout << toadoX[i];
+        std::cout << '\n';
+    }
 
     /*while (true)
     {
