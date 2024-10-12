@@ -4,7 +4,7 @@
 2. xác định và di chuyển 
 	-> SetColor(color): tô màu
 	-> gotoXY(x, y): di chuyển
-	-> Sleep(100): làm chậm hiển thị
+	-> Sleep(time): làm chậm hiển thị
 		
 
 3. xử lý di chuyển chạm biên
@@ -15,7 +15,7 @@
 					 biên trái -> đi phải
 					 biên phải -> đi trái
 	-> xóa dữ liệu cũ
-		-> system("cls"): làm nháy vật thể tĩnh trong console
+		-> system("cls"): làm nháy vật thể tĩnh trong console -> không sử dụng phương pháp này
 		-> backspace: dịch chuyển về phía trước, thay thế bằng space
 					  hello -> hell' ' -> hell
 
@@ -27,7 +27,9 @@
 6. xử lý đồ họa cho rắn
 
 7. xử lý di chuyển cho rắn
-	-> thêm tọa độ mới vào đầu mảng
-	-> xóa tọa độ cuối mảng
-	-> vẽ lại rắn
+	-> logic di chuyển:
+		khi rắn tiến tới 1 ô -> tọa độ điểm mới là (Xo, Yo)
+							 -> thêm tọa độ vào phần tử đầu tiên của mảng tọa độ
+							 -> xóa phần tử cuối cùng của mảng tọa độ
+	-> vẽ lại rắn với danh sách tọa độ mới
 
