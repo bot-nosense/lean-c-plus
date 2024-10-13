@@ -127,9 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="LowSnake.cpp" />
+    <ClCompile Include="Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Draw.h" />
+    <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeLib.h" />
   </ItemGroup>
   <ItemGroup>
