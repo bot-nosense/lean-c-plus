@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include "SnakeLib.h"
+#define MAX_ARRAY_LENGTH 100
 
 int g_nSnakeLength = 4,
     g_nPosDefault[2] = { 50, 12 },
-    g_nBorderGame[4] = { 5, 3, 105, 23 }    // A(5,3), console screen (100x20)
+    g_nBorderGame[4] = { 5, 3, 105, 23 }    // Begin(5,3), console screen (100x20)
     ;
 
 int CheckLimited(int n_PosX, int n_PosY, int check)
@@ -15,6 +16,19 @@ int CheckLimited(int n_PosX, int n_PosY, int check)
             (n_PosX == (g_nBorderGame[0] + 1)) ? 2 :
             (n_PosX == (g_nBorderGame[2] - 3)) ? 3 :
             check;
+}
+
+int Control(char c_Input, char c_Left, char c_Top, char c_Down, char c_Right)
+{
+    int move = -1; // None
+    if (c_Input == -32)
+    {
+        c_Input = _getch();
+        c_Input = (c_Input == 72) ? move = 1 : (c_Input == 80) ? move = 0 : (c_Input == 75) ? move = 3 : (c_Input == 77) ? move = 2 : c_Input;
+    }
+    else
+        (c_Input == c_Top) ? move = 1 : (c_Input == c_Down) ? move = 0 : (c_Input == c_Left) ? move = 3 : (c_Input == c_Right) ? move = 2 : c_Input;
+    return move;
 }
 
 void Draw(char cCharacter, int nPosX, int nPosY)
@@ -104,12 +118,12 @@ int main()
                     // 3: cham bien phai -> sang trai
     int color = 1;
     int x = g_nPosDefault[0], y = g_nPosDefault[1];
-    int toadoX[100], toadoY[100];
+    int n_ArrPosX[MAX_ARRAY_LENGTH], n_ArrPosY[MAX_ARRAY_LENGTH];
 
     BorderDraw();
 
-    /*SnakeSketch(toadoX, toadoY, g_nSnakeLength);
-    SnakeDraw(toadoX, toadoY, g_nSnakeLength);*/
+    SnakeSketch(n_ArrPosX, n_ArrPosY);
+    SnakeDraw(n_ArrPosX, n_ArrPosY);
     
     //snake_move(toadoX, toadoY, x, y, g_SnakeLength);
 
@@ -129,7 +143,7 @@ int main()
         std::cout << '\n';
     }*/
 
-    while (true)
+    /*while (true)
     {
         gotoXY(x, y);
         std::cout << "   ";
@@ -146,12 +160,7 @@ int main()
         if (_kbhit())
         {
             char ch = _getch();
-            if (ch == -32)
-            {
-                ch = _getch();
-                ch = (ch == 72) ? move = 1 : (ch == 80) ? move = 0 : (ch == 75) ? move = 3 : (ch == 77) ? move = 2 : ch;
-            }
-            ch = (ch == 's') ? move = 1 : (ch == 'x') ? move = 0 : (ch == 'z') ? move = 3 : (ch == 'c') ? move = 2 : ch;
+            move = Control(ch, 'z', 's', 'x', 'c');
         }
 
         g_nPosDefault[1] = (move == 0) ? (g_nPosDefault[1] + 1) : (move == 1) ? (g_nPosDefault[1] - 1) : g_nPosDefault[1];
@@ -159,7 +168,7 @@ int main()
         move = CheckLimited(g_nPosDefault[0], g_nPosDefault[1], move);
 
         Sleep(100);
-    }
+    }*/
 
     _getch();
     return 0;
