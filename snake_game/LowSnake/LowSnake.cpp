@@ -20,7 +20,7 @@ int CheckLimited(int n_PosX, int n_PosY, int check)
 
 int Control(char c_Input, char c_Left, char c_Top, char c_Down, char c_Right)
 {
-    int move = -1; // None
+    int move = 2; // None
     if (c_Input == -32)
     {
         c_Input = _getch();
@@ -39,7 +39,12 @@ void Draw(char cCharacter, int nPosX, int nPosY)
 
 void SnakeDraw(int nPosX[], int nPosY[])
 {
-    if (g_nSnakeLength == 4)
+    for (int i = 0; i < g_nSnakeLength; i++)
+    {
+        if (i == 0) Draw('O', nPosX[i], nPosY[i]);
+        else Draw('o', nPosX[i], nPosY[i]);
+    }
+    /*if (g_nSnakeLength == 4)
     {
         Draw('O', nPosX[0], nPosY[0]);
         Draw('0', nPosX[1], nPosY[1]);
@@ -53,7 +58,7 @@ void SnakeDraw(int nPosX[], int nPosY[])
         Draw('.', nPosX[g_nSnakeLength], nPosY[g_nSnakeLength]);
         for (int i = 2; i < g_nSnakeLength; i++)
             Draw('o', nPosX[i], nPosY[i]);
-    }
+    }*/
 }
 
 void SnakeSketch(int nPosX[], int nPosY[])
@@ -63,23 +68,33 @@ void SnakeSketch(int nPosX[], int nPosY[])
         nPosX[i] = g_nPosDefault[0];
         nPosY[i] = g_nPosDefault[1];
         g_nPosDefault[0]--;
-        std::cout << g_nPosDefault[0];
     }
+
+    /*for (int i = 0; i < g_nSnakeLength; i++)
+    {
+        std::cout << g_nPosDefault[i];
+    }*/
 }
 
-void InsertBegin(int nArr[], int nLength, int nValue)
+void InsertBegin(int nArr[], int nLength, int nInsertValue)
 {
     for (int i = nLength; i > 0; i--)
         nArr[i] = nArr[i - 1];
-    nArr[0] = nValue;
+    nArr[0] = nInsertValue;
     nLength++;
 }
 
-void RemoveLast(int nArr[], int nIndex)
+void RemoveItem(int nArr[], int nIndex)
 {
     for (int i = nIndex; i < g_nSnakeLength; i++)
         nArr[i] = nArr[i + 1];
     g_nSnakeLength--;
+}
+
+void RemoveLast()
+{
+    if (g_nSnakeLength > 0)
+        g_nSnakeLength--;
 }
 
 void BorderDraw()
@@ -105,9 +120,15 @@ void BorderDraw()
     }
 }
 
-void snake_move(int x[], int y[], int a, int b, int length)
+void SnakeMove(int n_ArrPosX[], int n_ArrPosY[], int n_NewPosX, int n_NewPosY)
 {
-    //add_array(x, length, a );
+    InsertBegin(n_ArrPosX, g_nSnakeLength, n_NewPosX);
+    InsertBegin(n_ArrPosY, g_nSnakeLength, n_NewPosY);
+
+    RemoveItem(n_ArrPosX, g_nSnakeLength);
+    RemoveItem(n_ArrPosY, g_nSnakeLength);
+
+    SnakeDraw(n_ArrPosX, n_ArrPosX);
 }
 
 int main()
@@ -122,8 +143,47 @@ int main()
 
     BorderDraw();
 
+    Draw(' ', x, y);
     SnakeSketch(n_ArrPosX, n_ArrPosY);
-    SnakeDraw(n_ArrPosX, n_ArrPosY);
+    //SnakeDraw(n_ArrPosX, n_ArrPosY);
+
+    while (true)
+    {
+        /*if (_kbhit())
+        {
+            char ch = _getch();
+            move = Control(ch, 'z', 's', 'x', 'c');
+        }*/ 
+
+        /*move = 2;
+
+        if (move == 0)  
+        {
+
+        } 
+        else if (move == 1)
+        {
+
+        }
+        else if (move == 3)
+        {
+
+        }
+        else if (move == 2)
+        {
+            x++;
+        }*/
+
+        g_nSnakeLength++;
+        for (int i = 0; i < g_nSnakeLength; i++)
+        {
+            n_ArrPosX[i] = x - i;
+        }
+
+        SnakeDraw(n_ArrPosX, n_ArrPosY);
+        //SnakeMove(n_ArrPosX, n_ArrPosY, x, y);
+        Sleep(100);
+    }
     
     //snake_move(toadoX, toadoY, x, y, g_SnakeLength);
 
