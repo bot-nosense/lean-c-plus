@@ -1,0 +1,35 @@
+﻿1. xác định tọa độ 
+	-> x, y
+
+2. xác định và di chuyển 
+	-> SetColor(color): tô màu
+	-> gotoXY(x, y): di chuyển
+	-> Sleep(time): làm chậm hiển thị
+		
+
+3. xử lý di chuyển chạm biên
+	-> xác định giới hạn biên của trục x và trục y
+	-> logic xử lý biên
+		khi rắn chạm biên trên -> đi xuống
+					 biên dưới -> đi lên
+					 biên trái -> đi phải
+					 biên phải -> đi trái
+	-> xóa dữ liệu cũ
+		-> system("cls"): làm nháy vật thể tĩnh trong console -> không sử dụng phương pháp này
+		-> backspace: dịch chuyển về phía trước, thay thế bằng space
+					  hello -> hell' ' -> hell
+
+4. điều khiển vật thể
+	-> gán phím
+
+5. xử lý đồ họa biên
+
+6. xử lý đồ họa cho rắn
+
+7. xử lý di chuyển cho rắn
+	-> logic di chuyển:
+		khi rắn tiến tới 1 ô -> tọa độ điểm mới là (Xo, Yo)
+							 -> thêm tọa độ vào phần tử đầu tiên của mảng tọa độ
+							 -> xóa phần tử cuối cùng của mảng tọa độ
+	-> vẽ lại rắn với danh sách tọa độ mới
+
