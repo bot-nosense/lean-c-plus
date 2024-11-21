@@ -127,8 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bieu_thuc_phuc_tap.cpp" />
     <ClCompile Include="DataType.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="tham_tri_tham_chieu.cpp" />
+    <ClCompile Include="tinh_toan_chuoi.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

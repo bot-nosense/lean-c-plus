@@ -21,5 +21,14 @@
     <ClCompile Include="tham_tri_tham_chieu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tinh_toan_chuoi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bieu_thuc_phuc_tap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
