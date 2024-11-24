@@ -15,24 +15,6 @@ using namespace std;
 */
 
 
-// Hàm kiểm tra biểu thức có dạng "x * số"
-bool isStringConcatenation(const string& expr) {
-    size_t pos = expr.find('*');
-    if (pos != string::npos) {
-        string left = expr.substr(0, pos);
-        string right = expr.substr(pos + 1);
-        // Kiểm tra bên trái là 'x' và bên phải là số
-        return left.find('x') != string::npos && all_of(right.begin(), right.end(), ::isdigit);
-    }
-    return false;
-}
-
-// Hàm xử lý cộng chuỗi
-string handleStringConcatenation(const string& expr) {
-    size_t pos = expr.find('*');
-    int count = stoi(expr.substr(pos + 1)); // Lấy số sau dấu '*'
-    return string(count, 'x'); // Lặp 'x' count lần
-}
 
 // Hàm tính giá trị biểu thức toán học
 int evaluateExpression(const string& expr, int x) {
@@ -97,20 +79,13 @@ int evaluateExpression(const string& expr, int x) {
 
 int main() {
     string input;
-    cout << "Nhập biểu thức: ";
+    cout << "Nhap bieu thuc: ";
     getline(cin, input);
-
-    if (isStringConcatenation(input)) {
-        // Xử lý trường hợp cộng chuỗi
-        string result = handleStringConcatenation(input);
-        cout << "Kết quả: " << result << endl;
-    }
-    else {
-        // Xử lý trường hợp biểu thức toán học
-        int x = 1; // Giả sử x = 1
-        int result = evaluateExpression(input, x);
-        cout << "Kết quả: " << result << endl;
-    }
+    
+    // Xử lý trường hợp biểu thức toán học
+    int x = 1; // Giả sử x = 1
+    int result = evaluateExpression(input, x);
+    cout << "Ket qua: " << result << endl;
 
     return 0;
 }
