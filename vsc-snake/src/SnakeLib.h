@@ -73,3 +73,14 @@ int inputKey()
 
 	return KEY_NONE;
 }
+
+// ẩn con trỏ
+void ShowConsoleCursor(bool showFlag)
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = showFlag; // false để ẩn, true để hiện
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+}

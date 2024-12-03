@@ -1,26 +1,29 @@
-
-
 #include <iostream>
 #include "SnakeLib.h"
 #define MAX_ARRAY_LENGTH 100
 
-int g_nSnakeLength = 4,
+using namespace std;
+
+int g_nSnakeLength = 2,
     g_nPosDefault[2] = { 50, 12 },
     g_nBorderGame[4] = { 5, 3, 105, 23 }    // Begin(5,3), console screen (100x20)
     ;
 
-int CheckLimited(int n_PosX, int n_PosY, int check)
+void Draw(string sText, int nPosX, int nPosY)
 {
-    return  (n_PosY == (g_nBorderGame[3] - 1)) ? 1 :
-            (n_PosY == (g_nBorderGame[0] - 1)) ? 0 :
-            (n_PosX == (g_nBorderGame[0] + 1)) ? 2 :
-            (n_PosX == (g_nBorderGame[2] - 3)) ? 3 :
-            check;
+    gotoXY(nPosX, nPosY);
+    cout << sText;
+}
+
+string PrintValue(int value)
+{
+    if (value >=0 && value <= 9) return to_string(value);
+    else return to_string(value % 10);
 }
 
 int Control(char c_Input, char c_Left, char c_Top, char c_Down, char c_Right)
 {
-    int move = 2; // None
+    int move = 4; // None
     if (c_Input == -32)
     {
         c_Input = _getch();
@@ -31,70 +34,13 @@ int Control(char c_Input, char c_Left, char c_Top, char c_Down, char c_Right)
     return move;
 }
 
-void Draw(char cCharacter, int nPosX, int nPosY)
+int CheckLimited(int n_PosX, int n_PosY, int check)
 {
-    gotoXY(nPosX, nPosY);
-    std::cout << cCharacter;
-}
-
-void SnakeDraw(int nPosX[], int nPosY[])
-{
-    for (int i = 0; i < g_nSnakeLength; i++)
-    {
-        if (i == 0) Draw('O', nPosX[i], nPosY[i]);
-        else Draw('o', nPosX[i], nPosY[i]);
-    }
-    /*if (g_nSnakeLength == 4)
-    {
-        Draw('O', nPosX[0], nPosY[0]);
-        Draw('0', nPosX[1], nPosY[1]);
-        Draw('o', nPosX[2], nPosY[2]);
-        Draw('.', nPosX[3], nPosY[3]);
-    }
-    else 
-    {
-        Draw('O', nPosX[0], nPosY[0]);
-        Draw('0', nPosX[1], nPosY[1]);
-        Draw('.', nPosX[g_nSnakeLength], nPosY[g_nSnakeLength]);
-        for (int i = 2; i < g_nSnakeLength; i++)
-            Draw('o', nPosX[i], nPosY[i]);
-    }*/
-}
-
-void SnakeSketch(int nPosX[], int nPosY[])
-{
-    for (int i = 0; i < g_nSnakeLength; i++)
-    {
-        nPosX[i] = g_nPosDefault[0];
-        nPosY[i] = g_nPosDefault[1];
-        g_nPosDefault[0]--;
-    }
-
-    /*for (int i = 0; i < g_nSnakeLength; i++)
-    {
-        std::cout << g_nPosDefault[i];
-    }*/
-}
-
-void InsertBegin(int nArr[], int nLength, int nInsertValue)
-{
-    for (int i = nLength; i > 0; i--)
-        nArr[i] = nArr[i - 1];
-    nArr[0] = nInsertValue;
-    nLength++;
-}
-
-void RemoveItem(int nArr[], int nIndex)
-{
-    for (int i = nIndex; i < g_nSnakeLength; i++)
-        nArr[i] = nArr[i + 1];
-    g_nSnakeLength--;
-}
-
-void RemoveLast()
-{
-    if (g_nSnakeLength > 0)
-        g_nSnakeLength--;
+    return  (n_PosY == (g_nBorderGame[3] - 1)) ? 1 :
+            (n_PosY == (g_nBorderGame[0] - 1)) ? 0 :
+            (n_PosX == (g_nBorderGame[0] + 1)) ? 2 :
+            (n_PosX == (g_nBorderGame[2] - 1)) ? 3 :
+            check;
 }
 
 void BorderDraw()
@@ -106,112 +52,54 @@ void BorderDraw()
 
     while (a <= g_nBorderGame[2])
     {
-        Draw('+', a, g_nBorderGame[1]);
+        Draw("+", a, g_nBorderGame[1]);
         a += 1;
-        Draw('+', b, g_nBorderGame[3]);
+        Draw("+", b, g_nBorderGame[3]);
         b += 1;
     }
     while (e <= g_nBorderGame[3])
     {
-        Draw('+', g_nBorderGame[0], e);
+        Draw("+", g_nBorderGame[0], e);
         e += 1;
-        Draw('+', g_nBorderGame[2], f);
+        Draw("+", g_nBorderGame[2], f);
         f += 1;
     }
 }
 
-void SnakeMove(int n_ArrPosX[], int n_ArrPosY[], int n_NewPosX, int n_NewPosY)
+void InsertValue(int arr[], int value)
 {
-    InsertBegin(n_ArrPosX, g_nSnakeLength, n_NewPosX);
-    InsertBegin(n_ArrPosY, g_nSnakeLength, n_NewPosY);
+    for (int i = g_nSnakeLength; i > 0; i--)
+    {
+        arr[i] = arr[i-1];
+    }
+    arr[0] = value;
 
-    RemoveItem(n_ArrPosX, g_nSnakeLength);
-    RemoveItem(n_ArrPosY, g_nSnakeLength);
-
-    SnakeDraw(n_ArrPosX, n_ArrPosX);
+    // - chuyển các value lên vị trí +1
+    // - thêm value mới vào vị trí a[0]
 }
 
 int main()
 {
-    int move = 0;  // 0: cham bien tren -> di xuong
-                    // 1: cham bien duoi -> di len
-                    // 2: cham bien trai -> sang phai
-                    // 3: cham bien phai -> sang trai
-    int color = 1;
-    int x = g_nPosDefault[0], y = g_nPosDefault[1];
-    int n_ArrPosX[MAX_ARRAY_LENGTH], n_ArrPosY[MAX_ARRAY_LENGTH];
+    int move = 4, color = 1;
+    int X[MAX_ARRAY_LENGTH], Y[MAX_ARRAY_LENGTH];
+    X[0] = 50; Y[0] = 12;
+    int x = X[0], y = Y[0];
 
     BorderDraw();
 
-    Draw(' ', x, y);
-    SnakeSketch(n_ArrPosX, n_ArrPosY);
-    //SnakeDraw(n_ArrPosX, n_ArrPosY);
-
     while (true)
     {
-        /*if (_kbhit())
-        {
-            char ch = _getch();
-            move = Control(ch, 'z', 's', 'x', 'c');
-        }*/ 
+        // sự kiện ẩn đi rắn ở ô hiện tại  
+        // sự kiện hiện rắn ở ô tiếp theo  
+        // gán phím di chuyển  
+        // kiểm tra hướng di chuyển và xác định vị trí tiếp theo  
+        // check va chạm tường với vị trí mới  
 
-        /*move = 2;
+        Draw(" ", x, y);
+        if (move == 3 || move == 2) Draw(PrintValue(x), X[0], Y[0]);
+        else Draw(PrintValue(y), X[0], Y[0]);
 
-        if (move == 0)  
-        {
-
-        } 
-        else if (move == 1)
-        {
-
-        }
-        else if (move == 3)
-        {
-
-        }
-        else if (move == 2)
-        {
-            x++;
-        }*/
-
-        g_nSnakeLength++;
-        for (int i = 0; i < g_nSnakeLength; i++)
-        {
-            n_ArrPosX[i] = x - i;
-        }
-
-        SnakeDraw(n_ArrPosX, n_ArrPosY);
-        //SnakeMove(n_ArrPosX, n_ArrPosY, x, y);
-        Sleep(100);
-    }
-    
-    //snake_move(toadoX, toadoY, x, y, g_SnakeLength);
-
-    /*for (int i = g_nSnakeLength; i > 0; i--)
-    {
-        std::cout << i + ", " + toadoX[i];
-        toadoX[i] = toadoX[i - 1];
-    }
-    toadoX[0] = 0;*/
-    //g_SnakeLength++;
-
-    /*for (int i = 4; i > 0; i--)
-    {
-        std::cout << i ;
-        toadoX[i] = toadoX[i - 1];
-        std::cout << toadoX[i];
-        std::cout << '\n';
-    }*/
-
-    /*while (true)
-    {
-        gotoXY(x, y);
-        std::cout << "   ";
-        gotoXY(g_nPosDefault[0], g_nPosDefault[1]);
-        std::cout << "[!]";
-
-        x = g_nPosDefault[0];
-        y = g_nPosDefault[1];
+        x = X[0]; y = Y[0];
 
         SetColor(color);
         color++;
@@ -223,12 +111,12 @@ int main()
             move = Control(ch, 'z', 's', 'x', 'c');
         }
 
-        g_nPosDefault[1] = (move == 0) ? (g_nPosDefault[1] + 1) : (move == 1) ? (g_nPosDefault[1] - 1) : g_nPosDefault[1];
-        g_nPosDefault[0] = (move == 2) ? (g_nPosDefault[0] + 1) : (move == 3) ? (g_nPosDefault[0] - 1) : g_nPosDefault[0];
-        move = CheckLimited(g_nPosDefault[0], g_nPosDefault[1], move);
+        Y[0] = (move == 0) ? (Y[0] + 1) : (move == 1) ? (Y[0] - 1) : Y[0];
+        X[0] = (move == 2) ? (X[0] + 1) : (move == 3) ? (X[0] - 1) : X[0];
+        move = CheckLimited(X[0], Y[0], move);
 
         Sleep(100);
-    }*/
+    }
 
     _getch();
     return 0;
