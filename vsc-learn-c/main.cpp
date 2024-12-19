@@ -1,8 +1,9 @@
 #include <iostream>
-using namespace std;
 
 int main()
 {
-    cout << "hello worrlsd" << endl;
+    std::cout << "hello worrlsd" << std::endl;
+
+    std::cin.get();
+    return 0;
 }
-    
